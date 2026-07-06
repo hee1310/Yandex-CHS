@@ -13,7 +13,7 @@
 ## 📥 安装方法
 
 1. 安装 Tampermonkey 或 Violentmonkey 等用户脚本管理器。
-2. 点击 [安装此脚本](Yandex-CHS-1.0.user.js)。
+2. 点击 [安装此脚本](https://github.com/hee1310/Yandex-CHS/raw/main/Yandex-CHS-1.0.user.js)。
 3. 刷新 Yandex 页面，即可看到中文界面。
 
 ## ⚠️ 注意事项
