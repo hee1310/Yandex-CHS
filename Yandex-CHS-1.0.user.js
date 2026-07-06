@@ -1,9 +1,8 @@
 // ==UserScript==
-// @name         Yandex 页面汉化
-// @version      1.0
+// @name         Yandex-CHS
+// @version      1.1
 // @author       hee1310
 // @description  Yandex 页面汉化
-// @description:zh-cn Yandex 页面汉化
 // @match        *://yandex.com/*
 // @match        *://*.yandex.com/*
 // @match        *://yandex.ru/*
@@ -14,16 +13,14 @@
 // @grant        none
 // @license      GPL-3.0 License
 // @run-at       document-start
+// @namespace https://greasyfork.org/users/1568887
 // ==/UserScript==
-
 (function() {
     'use strict';
-
     // 隐藏页面直至首次翻译完成
     const hideStyle = document.createElement('style');
     hideStyle.textContent = `body { visibility: hidden !important; }`;
     document.documentElement.appendChild(hideStyle);
-
     // =====================================================
     // 词典（完整版）—— 按功能类别分组
     // =====================================================
@@ -66,12 +63,12 @@
         "Yes": "是",
         "No": "否",
         "Select file": "选择文件",
-
         // ---------- 搜索相关 ----------
         "Search": "搜索",
         "Search Yandex": "Yandex 搜索",
         "Alice": "AI搜索",
         "Alice AI": "AI搜索",
+        "Yandex AI": "AI搜索",
         "Advanced search": "高级检索",
         "Search suggestions": "搜索联想词",
         "Filter search results": "搜索结果过滤",
@@ -101,7 +98,6 @@
         "More from the site": "本站更多内容",
         "Recommend Search": "推荐搜索",
         "And get up to 4,000 ₽": "最高可获得4,000 ₽",
-
         // ---------- 翻译功能 ----------
         "Translate": "翻译",
         "Yandex Translate": "Yandex翻译",
@@ -244,7 +240,6 @@
         "Translation timeout": "翻译超时",
         "Unsupported file format": "不支持的文件格式",
         "Supported formats:": "支持的格式：",
-
         // ---------- 语言名称 ----------
         "Bahasa Indonesia": "印尼语",
         "Русский": "俄语",
@@ -380,7 +375,6 @@
         "Yakut": "雅库特语",
         "Yiddish": "意第绪语",
         "Zulu": "祖鲁语",
-
         // ---------- 图片/视频搜索 ----------
         "Size": "尺寸",
         "Any size": "全部尺寸",
@@ -433,7 +427,6 @@
         "In other sizes": "其他尺寸",
         "Show all sizes": "显示全部尺寸",
         "Collapse": "收起",
-
         // ---------- 广告与隐私 ----------
         "Advertising": "广告设置",
         "Ad settings": "广告偏好",
@@ -471,7 +464,6 @@
         "Thanks to personalization": "借助个性化",
         "you don't have to see": "您无需看到",
         "irrelevant and uninteresting ads": "不相关和不感兴趣的广告",
-
         // ---------- 产品与服务 ----------
         "Browser": "浏览器",
         "Yandex Browser": "Yandex浏览器",
@@ -502,7 +494,6 @@
         "Products": "产品",
         "Finance": "金融",
         "Apartments": "公寓",
-
         // ---------- 账户与登录 ----------
         "Account": "账号",
         "Log in": "登录",
@@ -511,7 +502,6 @@
         "To save your bookmarks, passwords, and cards": "用于同步书签、密码与支付卡片",
         "Account management": "账号管理",
         "My reviews": "我的评价",
-
         // ---------- 外观与主题 ----------
         "Appearance": "外观设置",
         "External appearance": "外观样式",
@@ -523,7 +513,6 @@
         "Light": "浅色",
         "Dark": "深色",
         "System default": "跟随系统",
-
         // ---------- 帮助与反馈 ----------
         "Help": "帮助中心",
         "Feedback": "意见反馈",
@@ -542,7 +531,6 @@
         "Copyright Notice": "版权声明",
         "About": "关于",
         "About Yandex": "关于Yandex",
-
         // ---------- 时间与日期 ----------
         "Time period": "时间范围",
         "All time": "全部时间",
@@ -554,7 +542,6 @@
         "Last month": "近一个月",
         "Month": "近一个月",
         "Year": "近一年",
-
         // ---------- 设置偏好 ----------
         "Search settings": "搜索偏好",
         "Home page and new Yandex Browser tab": "主页与浏览器新标签页",
@@ -568,7 +555,6 @@
         "We'll correct any typos we find": "我们会更正我们发现的任何错别字",
         "Line break with Enter": "按Enter换行",
         "Otherwise, line break with Shift+Enter": "否则，按Shift+Enter换行",
-
         // ---------- 长句说明 ----------
         "Yandex serves ads that take into account your current location and the places you visit. By doing this, we can show you ads for businesses near you — for example, the nearest cafe or a dry cleaner that's along your commute.": "Yandex 会根据您当前的位置和访问过的地点展示广告。这样我们可以向您展示您附近商家的广告，例如最近的咖啡馆或您通勤路上的干洗店。",
         "Not sure if you used a word correctly?": "不确定单词用得对不对？",
@@ -614,7 +600,6 @@
         "Your previous queries": "您之前的查询",
         "Show tips": "显示提示",
         "Clear history": "清除历史记录",
-
         // ---------- 其他杂项 ----------
         "Детский режим": "儿童模式",
         "Bing": "必应",
@@ -631,31 +616,24 @@
         "Display pages in other languages": "显示其他语言的页面",
         "Type text or a site address": "输入文本或网站地址"
     };
-
     // ---------- 核心工具 ----------
     const skipTags = new Set([
         'IMG','BR','HR','FORM','SELECT','OPTION','INPUT','SCRIPT','STYLE','CODE','IFRAME','CANVAS','SVG','VIDEO','AUDIO'
     ]);
-
     function cleanText(str) {
         if (!str) return '';
         return str.replace(/[\n\r]/g, '').replace(/\u00A0/g, ' ').trim();
     }
-
     // ---------- 翻译函数（带防重入 + 断开 Observer） ----------
     let isTranslating = false;
     let observer = null;
-
     function translatePage() {
         if (isTranslating) return;
         isTranslating = true;
-
         // 暂停 MutationObserver，避免自触发循环
         if (observer) observer.disconnect();
-
         try {
             const allElements = document.querySelectorAll('body *');
-
             // 【1】专门针对该输入框的强锁定
             const targetInputs = document.querySelectorAll('input.HeaderForm-Input[placeholder*="Ask a question"]');
             targetInputs.forEach(el => {
@@ -666,11 +644,9 @@
                     }
                 }
             });
-
             // 【2】通用属性遍历
             allElements.forEach(el => {
                 if (skipTags.has(el.tagName)) return;
-
                 const attrs = ['placeholder', 'aria-label', 'title', 'alt', 'value', 'data-title'];
                 attrs.forEach(attr => {
                     if (el.hasAttribute(attr)) {
@@ -684,7 +660,6 @@
                     }
                 });
             });
-
             // 【3】文本节点
             allElements.forEach(el => {
                 if (skipTags.has(el.tagName)) return;
@@ -711,21 +686,18 @@
             isTranslating = false;
         }
     }
-
     // ---------- 启动与显示 ----------
     function fullTranslateAndShow() {
         translatePage();
         // 移除隐藏样式，显示页面
         hideStyle.textContent = '';
     }
-
     // 等待 DOM 就绪后执行首次翻译
     document.addEventListener('DOMContentLoaded', function() {
         fullTranslateAndShow();
         // 保留一次延迟补偿
         setTimeout(translatePage, 800);
     });
-
     // ---------- 创建 MutationObserver ----------
     observer = new MutationObserver(() => translatePage());
     observer.observe(document.documentElement, {
